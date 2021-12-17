@@ -2,7 +2,7 @@ import React, { SetStateAction, useState } from "react"
 import Animated from "react-native-reanimated";
 import styled from "styled-components/native";
 import playlistData from "../data/playlistData";
-import { StyledPlayIcon, StyledPlaylistHeaderBackIcon, StyledPlaylistOptionIcon, StyledPlaylistOptionsIcon } from "../icons/Icons";
+import { StyledPlayIcon, StyledPlaylistHeaderBackIcon, StyledPlaylistOptionIcon, StyledPlaylistOptionsIcon, StyledPlaylistSongHeartIcon, StyledPlaylistSongOptionsIcon } from "../icons/Icons";
 import { LinearGradient } from "expo-linear-gradient";
 
 interface HeaderProps{
@@ -11,6 +11,20 @@ interface HeaderProps{
 
 interface BodyProps{
     setDistanceTop: React.Dispatch<SetStateAction<number>>;
+}
+
+interface Song{
+    name: string;
+    authors: string[];
+    album: string;
+    cover: string;
+    dateAdded: string;
+    liked: boolean;
+}
+
+interface SongProps{
+    info: Song;
+    place: number;
 }
 
 const Header: React.FC<HeaderProps> = ({distanceTop}) => {
@@ -36,6 +50,9 @@ const StyledPlaylistHeader = styled.View`
     flex-direction: row;
     padding: 0 10px;
     z-index: 3;
+    position: absolute;
+    top: 0;
+    left: 0;
 `;
 
 const StyledPlaylistHeaderName = styled.Text`
@@ -257,10 +274,114 @@ const StyledPlaylistOptionsLeftEnhanceText = styled.Text`
     font-size: 16px;
 `;
 
+const Song: React.FC<SongProps> = ({place, info}) => {
+    return (
+        <StyledPlaylistSong>
+            <StyledPlaylistSongLeft 
+                source={{uri: info.cover}}
+                style={{
+                    resizeMode: "cover"
+                }}
+            />
+
+            <StyledPlaylistSongMiddle>
+                <StyledPlaylistSongMiddleTop>{info.name}</StyledPlaylistSongMiddleTop>
+
+                <StyledPlaylistSongMiddleBottom>
+                    {
+                        info.authors.map((author, i) => {
+                            return (
+                                <StyledPlaylistSongMiddleBottomText key={i}>{author}</StyledPlaylistSongMiddleBottomText>
+                            )
+                        })
+                    }
+                </StyledPlaylistSongMiddleBottom>
+            </StyledPlaylistSongMiddle>
+
+            <StyledPlaylistSongRight>
+                <StyledPlaylistSongHeartIcon name="hearto" />
+
+                <StyledPlaylistSongOptionsIcon name="options-vertical" />
+            </StyledPlaylistSongRight>
+        </StyledPlaylistSong>
+    )
+}
+
+const StyledPlaylistSong = styled.View`
+    width: 100%;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+    padding: 0 15px;
+`;
+
+const StyledPlaylistSongLeft = styled.Image`
+    width: 50px;
+    height: 50px;
+    margin: 0 10px 0 0;
+`;
+
+const StyledPlaylistSongMiddle = styled.View`
+    flex: 1;
+    height: 50px;
+    justify-content: center;
+`;
+
+const StyledPlaylistSongMiddleTop = styled.Text`
+    color: #f2f2f2;
+`;
+
+const StyledPlaylistSongMiddleBottom = styled.View`
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: row;
+`;
+
+const StyledPlaylistSongMiddleBottomText = styled.Text`
+    color: #aaa7a7;
+    margin: 0 2px;
+`;
+
+const StyledPlaylistSongRight = styled.View`
+    width: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+`;
+
+const Songs: React.FC = () => {
+    return (
+        <StyledPlaylistSongs>
+            {
+                playlistData.songs.map((song, i) => {
+                    return (
+                        <Song 
+                            key={i}
+                            place={i + 1}
+                            info={song}
+                        />
+                    )
+                })
+            }
+        </StyledPlaylistSongs>
+    )
+}
+
+const StyledPlaylistSongs = styled.ScrollView`
+    width: 100%;
+    display: flex;
+`;
+
 const Body: React.FC<BodyProps> = ({setDistanceTop}) => {
     return (
         <StyledPlaylistBody onScroll={(e) => setDistanceTop(e.nativeEvent.contentOffset.y)}>
             <Top />
+
+            <Songs />
         </StyledPlaylistBody>
     )
 }
@@ -269,9 +390,6 @@ const StyledPlaylistBody = styled.ScrollView`
     width: 100%;
     display: flex;
     background-color: #000000;
-    position: absolute;
-    top: 0;
-    left: 0;
 `;
 
 const Playlist = () => {

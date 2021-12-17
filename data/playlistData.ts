@@ -12,7 +12,8 @@ const playlistData = {
             ],
             album: "Nightmare Vacation",
             cover: "https://upload.wikimedia.org/wikipedia/en/a/a9/Rico_Nasty_-_Nightmare_Vacation.jpg",
-            dateAdded: "19 days ago"
+            dateAdded: "19 days ago",
+            liked: false,
         }
     ]
 }

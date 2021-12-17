@@ -1,6 +1,7 @@
 import Ionicon from "react-native-vector-icons/Ionicons";
 import styled from "styled-components/native";
 import SimpleLineIcon from "react-native-vector-icons/SimpleLineIcons";
+import AntDesign from "react-native-vector-icons/AntDesign";
 
 const StyledPlaylistHeaderBackIcon = styled(Ionicon)`
     color: #f2f2f2;
@@ -22,10 +23,21 @@ const StyledPlaylistOptionsIcon = styled(SimpleLineIcon)`
     font-size: 25px;
 `;
 
+const StyledPlaylistSongOptionsIcon = styled(SimpleLineIcon)`
+    color: #aaa7a7;
+    font-size: 20px;
+`;
+
+const StyledPlaylistSongHeartIcon = styled(AntDesign)`
+    color: #aaa7a7;
+    font-size: 20px;
+`;
 
 export {
     StyledPlayIcon,
     StyledPlaylistOptionIcon,
     StyledPlaylistOptionsIcon,
-    StyledPlaylistHeaderBackIcon
+    StyledPlaylistSongOptionsIcon,
+    StyledPlaylistHeaderBackIcon,
+    StyledPlaylistSongHeartIcon
 }
