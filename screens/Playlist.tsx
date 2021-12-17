@@ -1,15 +1,17 @@
-import React, { SetStateAction, useState } from "react"
+import React, { SetStateAction, useEffect, useState } from "react"
 import Animated from "react-native-reanimated";
 import styled from "styled-components/native";
 import playlistData from "../data/playlistData";
 import { StyledPlayIcon, StyledPlaylistHeaderBackIcon, StyledPlaylistOptionIcon, StyledPlaylistOptionsIcon, StyledPlaylistSongHeartIcon, StyledPlaylistSongOptionsIcon } from "../icons/Icons";
 import { LinearGradient } from "expo-linear-gradient";
+import { MIN_HEADER_HEIGHT } from "../models/PlaylistModel";
 
 interface HeaderProps{
     distanceTop: number;
 }
 
 interface BodyProps{
+    distanceTop: number;
     setDistanceTop: React.Dispatch<SetStateAction<number>>;
 }
 
@@ -61,7 +63,33 @@ const StyledPlaylistHeaderName = styled.Text`
     margin: 0 0 0 20px;
 `;
 
-const Top = () => {
+const Top: React.FC<HeaderProps> = ({distanceTop}) => {
+    const [coverOpacity, setCoverOpacity] = useState(distanceTop);
+    const [coverSize, setCoverSize] = useState(290);
+    const [coverContainerSize, setCoverContainerSize] = useState(290);
+
+    useEffect(() => {
+        if(distanceTop === 0 || Math.floor((80 * 100) / distanceTop) > 290){
+            setCoverSize(290);
+        }else{
+            setCoverSize(Math.floor((80 * 100) / distanceTop));
+        }
+
+        if(distanceTop === 0 || 20 / distanceTop > 1){
+            setCoverOpacity(1);
+        }else{
+            setCoverOpacity(20 / distanceTop);
+        }
+
+        if(Math.floor((8000) / distanceTop) > 290){
+            setCoverContainerSize(290);
+        }else if(Math.floor((8000) / distanceTop) < MIN_HEADER_HEIGHT){
+            setCoverContainerSize(MIN_HEADER_HEIGHT);
+        }else{
+            setCoverContainerSize(Math.floor((8000) / distanceTop));
+        }
+    }, [distanceTop]);
+
     return (
         <StyledPlaylistTop
             colors={["#513B9E", "#000000"]}
@@ -77,13 +105,22 @@ const Top = () => {
                 </StyledPlaylistTopSort>
             </StyledPlaylistTopInputContainer>
 
-            <StyledPlaylistTopCover
-                source={{uri: playlistData.image}}
+            <StyledPlaylistTopCoverContainer
                 style={{
-                    resizeMode: "cover"
+                    height: coverContainerSize
                 }}
-            />
-
+            >
+                <StyledPlaylistTopCover
+                    source={{uri: playlistData.image}}
+                    style={{
+                        resizeMode: "cover",
+                        width: coverSize,
+                        height: coverSize,
+                        opacity: coverOpacity
+                    }}
+                />
+            </StyledPlaylistTopCoverContainer>
+            
             <Info />
 
             <Options />
@@ -140,11 +177,15 @@ const StyledPlaylistTopSortText = styled.Text`
     font-size: 16px;
 `;
 
-const StyledPlaylistTopCover = styled.Image`
-    width: 230px;
-    height: 230px;
-    margin: 40px 0;
+const StyledPlaylistTopCoverContainer = styled.View`
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px 0;
 `;
+
+const StyledPlaylistTopCover = styled.Image``;
 
 const StyledPlaylistTopAddSongsContainer = styled.View`
     width: 100%;
@@ -376,10 +417,10 @@ const StyledPlaylistSongs = styled.ScrollView`
     display: flex;
 `;
 
-const Body: React.FC<BodyProps> = ({setDistanceTop}) => {
+const Body: React.FC<BodyProps> = ({setDistanceTop, distanceTop}) => {
     return (
         <StyledPlaylistBody onScroll={(e) => setDistanceTop(e.nativeEvent.contentOffset.y)}>
-            <Top />
+            <Top distanceTop={distanceTop} />
 
             <Songs />
         </StyledPlaylistBody>
@@ -399,7 +440,7 @@ const Playlist = () => {
         <StyledPlaylist>
             <Header distanceTop={distanceTop} />
 
-            <Body setDistanceTop={setDistanceTop} />
+            <Body distanceTop={distanceTop} setDistanceTop={setDistanceTop} />
         </StyledPlaylist>
     )
 }
