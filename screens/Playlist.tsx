@@ -2,7 +2,7 @@ import React, { SetStateAction, useState } from "react"
 import Animated from "react-native-reanimated";
 import styled from "styled-components/native";
 import playlistData from "../data/playlistData";
-import { StyledPlaylistHeaderBackIcon } from "../icons/Icons";
+import { StyledPlayIcon, StyledPlaylistHeaderBackIcon, StyledPlaylistOptionIcon, StyledPlaylistOptionsIcon } from "../icons/Icons";
 import { LinearGradient } from "expo-linear-gradient";
 
 interface HeaderProps{
@@ -68,6 +68,14 @@ const Top = () => {
             />
 
             <Info />
+
+            <Options />
+
+            <StyledPlaylistTopAddSongsContainer>
+                <StyledPlaylistTopAddSongs>
+                    <StyledPlaylistTopAddSongsText>Add songs</StyledPlaylistTopAddSongsText>
+                </StyledPlaylistTopAddSongs>
+            </StyledPlaylistTopAddSongsContainer>
         </StyledPlaylistTop>
     )
 }
@@ -121,6 +129,28 @@ const StyledPlaylistTopCover = styled.Image`
     margin: 40px 0;
 `;
 
+const StyledPlaylistTopAddSongsContainer = styled.View`
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+`;
+
+const StyledPlaylistTopAddSongs = styled.TouchableOpacity`
+    padding: 5px 20px;
+    border-radius: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #aaa7a7;
+`;
+
+const StyledPlaylistTopAddSongsText = styled.Text`
+    color: #f2f2f2;
+    font-size: 16px;
+`;
+
 const Info: React.FC = () => {
     return (
         <StyledPlaylistInfo>
@@ -144,7 +174,6 @@ const Info: React.FC = () => {
 
 const StyledPlaylistInfo = styled.View`
     width: 100%;
-    height: 200px;
     align-items: flex-start;
 `;
 
@@ -177,6 +206,55 @@ const StyledPlaylistInfoCreatorName = styled.Text`
 const StyledPlaylistInfoLength = styled.Text`
     color: #cacaca;
     font-size: 14px;
+`;
+
+const Options: React.FC = () => {
+    return (
+        <StyledPlaylistOptions>
+            <StyledPlaylistOptionsLeft>
+                <StyledPlaylistOptionsLeftEnhance>
+                    <StyledPlaylistOptionsLeftEnhanceText>Enhance</StyledPlaylistOptionsLeftEnhanceText>
+                </StyledPlaylistOptionsLeftEnhance>
+
+                <StyledPlaylistOptionIcon name="arrow-down-circle-outline" />
+
+                <StyledPlaylistOptionIcon name="ios-person-add" />
+
+                <StyledPlaylistOptionsIcon name="options-vertical" />
+            </StyledPlaylistOptionsLeft>
+
+            <StyledPlayIcon name="play-circle" />
+        </StyledPlaylistOptions>
+    )
+}
+
+const StyledPlaylistOptions = styled.View`
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: 70px;
+    margin: 10px 0;
+`;
+
+const StyledPlaylistOptionsLeft = styled.View`
+    width: 200px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+`;
+
+const StyledPlaylistOptionsLeftEnhance = styled.TouchableOpacity`
+    padding: 5px 10px;
+    border: #aaa7a7 1px;
+    border-radius: 100px;
+`;
+
+const StyledPlaylistOptionsLeftEnhanceText = styled.Text`
+    color: #f2f2f2;
+    font-size: 16px;
 `;
 
 const Body: React.FC<BodyProps> = ({setDistanceTop}) => {
