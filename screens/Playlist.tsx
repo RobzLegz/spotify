@@ -1,11 +1,19 @@
 import React from "react"
+import Animated from "react-native-reanimated";
 import styled from "styled-components/native";
+import playlistData from "../data/playlistData";
 import { StyledPlaylistHeaderBackIcon } from "../icons/Icons";
 
 const Header = () => {
     return (
         <StyledPlaylistHeader>
             <StyledPlaylistHeaderBackIcon name="arrow-back" />
+
+            <StyledPlaylistHeaderName 
+                style={{
+                    opacity: 0,
+                }}
+            >{playlistData.name}</StyledPlaylistHeaderName>
         </StyledPlaylistHeader>
     )
 }
@@ -18,6 +26,12 @@ const StyledPlaylistHeader = styled.View`
     justify-content: flex-start;
     flex-direction: row;
     padding: 0 10px;
+`;
+
+const StyledPlaylistHeaderName = styled.Text`
+    color: #f2f2f2;
+    font-size: 18px;
+    margin: 0 0 0 20px;
 `;
 
 const Playlist = () => {
