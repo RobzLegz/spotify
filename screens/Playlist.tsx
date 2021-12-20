@@ -1,5 +1,4 @@
 import React, { SetStateAction, useEffect, useState } from "react"
-import Animated from "react-native-reanimated";
 import styled from "styled-components/native";
 import playlistData from "../data/playlistData";
 import { StyledPlayIcon, StyledPlaylistHeaderBackIcon, StyledPlaylistOptionIcon, StyledPlaylistOptionsIcon, StyledPlaylistSongHeartIcon, StyledPlaylistSongOptionsIcon } from "../icons/Icons";
