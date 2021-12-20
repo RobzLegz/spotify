@@ -1,7 +1,7 @@
 import React, { SetStateAction, useEffect, useState } from "react"
 import styled from "styled-components/native";
-import playlistData from "../data/playlistData";
-import { StyledPlayIcon, StyledPlaylistHeaderBackIcon, StyledPlaylistOptionIcon, StyledPlaylistOptionsIcon, StyledPlaylistSongHeartIcon, StyledPlaylistSongOptionsIcon } from "../icons/Icons";
+import playlistData, { playlistOptions } from "../data/playlistData";
+import { StyledPlayIcon, StyledPlaylistHeaderBackIcon, StyledPlaylistOptionIcon, StyledPlaylistOptionSelectIcon1, StyledPlaylistOptionSelectIcon2, StyledPlaylistOptionSelectIcon3, StyledPlaylistOptionSelectIcon4, StyledPlaylistOptionSelectIcon5, StyledPlaylistOptionSelectIcon6, StyledPlaylistOptionSelectIcon7, StyledPlaylistOptionSelectIcon8, StyledPlaylistOptionsIcon, StyledPlaylistSongHeartIcon, StyledPlaylistSongOptionsIcon } from "../icons/Icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { MIN_HEADER_HEIGHT } from "../models/PlaylistModel";
 
@@ -167,6 +167,36 @@ const Options: React.FC = () => {
 
                     <StyledPlaylistHeaderName>{playlistData.name}</StyledPlaylistHeaderName>
                     <StyledPlaylistOptionPopupCreator>by {playlistData.creator}</StyledPlaylistOptionPopupCreator>
+
+                    {
+                        playlistOptions.map((option, i) => {
+                            return (
+                                <StyledPlaylistOptionContainer key={i}>
+                                    {
+                                        option.iconType === "Ionicons" ? (
+                                            <StyledPlaylistOptionSelectIcon2 name={option.icon} />
+                                        ) : option.iconType === "Entypo" ? (
+                                            <StyledPlaylistOptionSelectIcon3 name={option.icon} />
+                                        ) : option.iconType === "Feather" ? (
+                                            <StyledPlaylistOptionSelectIcon4 name={option.icon} />
+                                        ) : option.iconType === "AntDesign" ? (
+                                            <StyledPlaylistOptionSelectIcon1 name={option.icon} />
+                                        ) : option.iconType === "MaterialCommunityIcons" ? (
+                                            <StyledPlaylistOptionSelectIcon5 name={option.icon} />
+                                        ) : option.iconType === "MaterialIcons" ? (
+                                            <StyledPlaylistOptionSelectIcon6 name={option.icon} />
+                                        ) : option.iconType === "Fontisto" ? (
+                                            <StyledPlaylistOptionSelectIcon7 name={option.icon} />
+                                        ) : option.iconType === "FontAwesome5" ? (
+                                            <StyledPlaylistOptionSelectIcon8 name={option.icon} />
+                                        ) : (null)
+                                    }
+
+                                    <StyledPlaylistOptionText>{option.text}</StyledPlaylistOptionText>
+                                </StyledPlaylistOptionContainer>
+                            )
+                        })
+                    }
                 </StyledPlaylistOptionPopupBody>
             </StyledPlaylistOptionPopup>
         </StyledPlaylistOptions>
@@ -492,6 +522,22 @@ const StyledPlaylistOptionPopupCreator = styled.Text`
     font-size: 14px;
     color: #aaa7a7;
     margin: 10px 0 20px 0;
+`;
+
+const StyledPlaylistOptionContainer = styled.TouchableOpacity`
+    width: 100%;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: row;
+    padding: 0 0 0 20px;
+`;
+
+const StyledPlaylistOptionText = styled.Text`
+    font-size: 16px;
+    color: #f2f2f2;
+    margin: 0 0 0 15px;
 `;
 
 export default Playlist;
