@@ -135,6 +135,8 @@ const Info: React.FC = () => {
 }
 
 const Options: React.FC = () => {
+    const [showOptions, setShowOptions] = useState(false);
+
     return (
         <StyledPlaylistOptions>
             <StyledPlaylistOptionsLeft>
@@ -146,10 +148,27 @@ const Options: React.FC = () => {
 
                 <StyledPlaylistOptionIcon name="ios-person-add" />
 
-                <StyledPlaylistOptionsIcon name="options-vertical" />
+                <StyledPlaylistOptionsIcon name="options-vertical" onPress={() => setShowOptions(true)} />
             </StyledPlaylistOptionsLeft>
 
             <StyledPlayIcon name="play-circle" />
+
+            <StyledPlaylistOptionPopup
+                animationType="slide"
+                visible={showOptions}
+                transparent={true}
+            >
+                <StyledPlaylistOptionPopupBody
+                    contentContainerStyle={{alignItems: "center"}}
+                >
+                    <StyledPlaylistOptionPopupImage 
+                        source={{uri: playlistData.image}}
+                    />
+
+                    <StyledPlaylistHeaderName>{playlistData.name}</StyledPlaylistHeaderName>
+                    <StyledPlaylistOptionPopupCreator>by {playlistData.creator}</StyledPlaylistOptionPopupCreator>
+                </StyledPlaylistOptionPopupBody>
+            </StyledPlaylistOptionPopup>
         </StyledPlaylistOptions>
     )
 }
@@ -449,6 +468,30 @@ const StyledPlaylistBody = styled.ScrollView`
     width: 100%;
     display: flex;
     background-color: #000000;
+`;
+
+const StyledPlaylistOptionPopup = styled.Modal`
+    z-index: 3;
+    width: 100%;
+    height: 100%;
+`;
+
+const StyledPlaylistOptionPopupBody = styled.ScrollView`
+    width: 100%;
+    display: flex;
+    background-color: #000000;
+`;
+
+const StyledPlaylistOptionPopupImage = styled.Image`
+    width: 200px;
+    height: 200px;
+    margin: 0 0 20px 0;
+`;
+
+const StyledPlaylistOptionPopupCreator = styled.Text`
+    font-size: 14px;
+    color: #aaa7a7;
+    margin: 10px 0 20px 0;
 `;
 
 export default Playlist;

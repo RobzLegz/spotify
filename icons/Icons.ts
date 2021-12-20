@@ -33,11 +33,17 @@ const StyledPlaylistSongHeartIcon = styled(AntDesign)`
     font-size: 20px;
 `;
 
+const StyledPlaylistOptionSelectIcon = styled(AntDesign)`
+    color: #aaa7a7;
+    font-size: 30px;
+`;
+
 export {
     StyledPlayIcon,
     StyledPlaylistOptionIcon,
     StyledPlaylistOptionsIcon,
     StyledPlaylistSongOptionsIcon,
     StyledPlaylistHeaderBackIcon,
-    StyledPlaylistSongHeartIcon
+    StyledPlaylistSongHeartIcon,
+    StyledPlaylistOptionSelectIcon
 }
