@@ -42,26 +42,6 @@ const Header: React.FC<HeaderProps> = ({distanceTop}) => {
     )
 }
 
-const StyledPlaylistHeader = styled.View`
-    width: 100%;
-    height: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    flex-direction: row;
-    padding: 0 10px;
-    z-index: 3;
-    position: absolute;
-    top: 0;
-    left: 0;
-`;
-
-const StyledPlaylistHeaderName = styled.Text`
-    color: #f2f2f2;
-    font-size: 18px;
-    margin: 0 0 0 20px;
-`;
-
 const Top: React.FC<HeaderProps> = ({distanceTop}) => {
     const [coverOpacity, setCoverOpacity] = useState(distanceTop);
     const [coverSize, setCoverSize] = useState(290);
@@ -132,6 +112,147 @@ const Top: React.FC<HeaderProps> = ({distanceTop}) => {
         </StyledPlaylistTop>
     )
 }
+
+const Info: React.FC = () => {
+    return (
+        <StyledPlaylistInfo>
+            <StyledPlaylistInfoName>{playlistData.name}</StyledPlaylistInfoName>
+
+            <StyledPlaylistInfoCreatorContainer>
+                <StyledPlaylistInfoCreatorAvatar 
+                    source={{uri: playlistData.creaorImage}}
+                    style={{
+                        resizeMode: "cover"
+                    }}
+                />
+
+                <StyledPlaylistInfoCreatorName>{playlistData.creator}</StyledPlaylistInfoCreatorName>
+            </StyledPlaylistInfoCreatorContainer>
+
+            <StyledPlaylistInfoLength>{playlistData.length}</StyledPlaylistInfoLength>
+        </StyledPlaylistInfo>
+    )
+}
+
+const Options: React.FC = () => {
+    return (
+        <StyledPlaylistOptions>
+            <StyledPlaylistOptionsLeft>
+                <StyledPlaylistOptionsLeftEnhance>
+                    <StyledPlaylistOptionsLeftEnhanceText>Enhance</StyledPlaylistOptionsLeftEnhanceText>
+                </StyledPlaylistOptionsLeftEnhance>
+
+                <StyledPlaylistOptionIcon name="arrow-down-circle-outline" />
+
+                <StyledPlaylistOptionIcon name="ios-person-add" />
+
+                <StyledPlaylistOptionsIcon name="options-vertical" />
+            </StyledPlaylistOptionsLeft>
+
+            <StyledPlayIcon name="play-circle" />
+        </StyledPlaylistOptions>
+    )
+}
+
+const Song: React.FC<SongProps> = ({place, info}) => {
+    return (
+        <StyledPlaylistSong>
+            <StyledPlaylistSongLeft 
+                source={{uri: info.cover}}
+                style={{
+                    resizeMode: "cover"
+                }}
+            />
+
+            <StyledPlaylistSongMiddle>
+                <StyledPlaylistSongMiddleTop>{info.name}</StyledPlaylistSongMiddleTop>
+
+                <StyledPlaylistSongMiddleBottom>
+                    {
+                        info.authors.map((author, i) => {
+                            return (
+                                <StyledPlaylistSongMiddleBottomText key={i}>{author}</StyledPlaylistSongMiddleBottomText>
+                            )
+                        })
+                    }
+                </StyledPlaylistSongMiddleBottom>
+            </StyledPlaylistSongMiddle>
+
+            <StyledPlaylistSongRight>
+                <StyledPlaylistSongHeartIcon name="hearto" />
+
+                <StyledPlaylistSongOptionsIcon name="options-vertical" />
+            </StyledPlaylistSongRight>
+        </StyledPlaylistSong>
+    )
+}
+
+const Songs: React.FC = () => {
+    return (
+        <StyledPlaylistSongs>
+            {
+                playlistData.songs.map((song, i) => {
+                    return (
+                        <Song 
+                            key={i}
+                            place={i + 1}
+                            info={song}
+                        />
+                    )
+                })
+            }
+        </StyledPlaylistSongs>
+    )
+}
+
+const Body: React.FC<BodyProps> = ({setDistanceTop, distanceTop}) => {
+    return (
+        <StyledPlaylistBody onScroll={(e) => setDistanceTop(e.nativeEvent.contentOffset.y)}>
+            <Top distanceTop={distanceTop} />
+
+            <Songs />
+        </StyledPlaylistBody>
+    )
+}
+
+const Playlist = () => {
+    const [distanceTop, setDistanceTop] = useState(0);
+
+    return (
+        <StyledPlaylist>
+            <Header distanceTop={distanceTop} />
+
+            <Body distanceTop={distanceTop} setDistanceTop={setDistanceTop} />
+        </StyledPlaylist>
+    )
+}
+
+const StyledPlaylist = styled.View`
+    width: 100%;
+    display: flex;
+    background-color: #000000;
+    height: 100%;
+`;
+
+const StyledPlaylistHeader = styled.View`
+    width: 100%;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: row;
+    padding: 0 10px;
+    z-index: 3;
+    position: absolute;
+    top: 0;
+    left: 0;
+`;
+
+const StyledPlaylistHeaderName = styled.Text`
+    color: #f2f2f2;
+    font-size: 18px;
+    margin: 0 0 0 20px;
+`;
 
 const StyledPlaylistTop = styled(LinearGradient)`
     width: 100%;
@@ -208,27 +329,6 @@ const StyledPlaylistTopAddSongsText = styled.Text`
     font-size: 16px;
 `;
 
-const Info: React.FC = () => {
-    return (
-        <StyledPlaylistInfo>
-            <StyledPlaylistInfoName>{playlistData.name}</StyledPlaylistInfoName>
-
-            <StyledPlaylistInfoCreatorContainer>
-                <StyledPlaylistInfoCreatorAvatar 
-                    source={{uri: playlistData.creaorImage}}
-                    style={{
-                        resizeMode: "cover"
-                    }}
-                />
-
-                <StyledPlaylistInfoCreatorName>{playlistData.creator}</StyledPlaylistInfoCreatorName>
-            </StyledPlaylistInfoCreatorContainer>
-
-            <StyledPlaylistInfoLength>{playlistData.length}</StyledPlaylistInfoLength>
-        </StyledPlaylistInfo>
-    )
-}
-
 const StyledPlaylistInfo = styled.View`
     width: 100%;
     align-items: flex-start;
@@ -265,26 +365,6 @@ const StyledPlaylistInfoLength = styled.Text`
     font-size: 14px;
 `;
 
-const Options: React.FC = () => {
-    return (
-        <StyledPlaylistOptions>
-            <StyledPlaylistOptionsLeft>
-                <StyledPlaylistOptionsLeftEnhance>
-                    <StyledPlaylistOptionsLeftEnhanceText>Enhance</StyledPlaylistOptionsLeftEnhanceText>
-                </StyledPlaylistOptionsLeftEnhance>
-
-                <StyledPlaylistOptionIcon name="arrow-down-circle-outline" />
-
-                <StyledPlaylistOptionIcon name="ios-person-add" />
-
-                <StyledPlaylistOptionsIcon name="options-vertical" />
-            </StyledPlaylistOptionsLeft>
-
-            <StyledPlayIcon name="play-circle" />
-        </StyledPlaylistOptions>
-    )
-}
-
 const StyledPlaylistOptions = styled.View`
     width: 100%;
     display: flex;
@@ -313,39 +393,6 @@ const StyledPlaylistOptionsLeftEnhanceText = styled.Text`
     color: #f2f2f2;
     font-size: 16px;
 `;
-
-const Song: React.FC<SongProps> = ({place, info}) => {
-    return (
-        <StyledPlaylistSong>
-            <StyledPlaylistSongLeft 
-                source={{uri: info.cover}}
-                style={{
-                    resizeMode: "cover"
-                }}
-            />
-
-            <StyledPlaylistSongMiddle>
-                <StyledPlaylistSongMiddleTop>{info.name}</StyledPlaylistSongMiddleTop>
-
-                <StyledPlaylistSongMiddleBottom>
-                    {
-                        info.authors.map((author, i) => {
-                            return (
-                                <StyledPlaylistSongMiddleBottomText key={i}>{author}</StyledPlaylistSongMiddleBottomText>
-                            )
-                        })
-                    }
-                </StyledPlaylistSongMiddleBottom>
-            </StyledPlaylistSongMiddle>
-
-            <StyledPlaylistSongRight>
-                <StyledPlaylistSongHeartIcon name="hearto" />
-
-                <StyledPlaylistSongOptionsIcon name="options-vertical" />
-            </StyledPlaylistSongRight>
-        </StyledPlaylistSong>
-    )
-}
 
 const StyledPlaylistSong = styled.View`
     width: 100%;
@@ -393,62 +440,15 @@ const StyledPlaylistSongRight = styled.View`
     flex-direction: row;
 `;
 
-const Songs: React.FC = () => {
-    return (
-        <StyledPlaylistSongs>
-            {
-                playlistData.songs.map((song, i) => {
-                    return (
-                        <Song 
-                            key={i}
-                            place={i + 1}
-                            info={song}
-                        />
-                    )
-                })
-            }
-        </StyledPlaylistSongs>
-    )
-}
-
 const StyledPlaylistSongs = styled.ScrollView`
     width: 100%;
     display: flex;
 `;
 
-const Body: React.FC<BodyProps> = ({setDistanceTop, distanceTop}) => {
-    return (
-        <StyledPlaylistBody onScroll={(e) => setDistanceTop(e.nativeEvent.contentOffset.y)}>
-            <Top distanceTop={distanceTop} />
-
-            <Songs />
-        </StyledPlaylistBody>
-    )
-}
-
 const StyledPlaylistBody = styled.ScrollView`
     width: 100%;
     display: flex;
     background-color: #000000;
-`;
-
-const Playlist = () => {
-    const [distanceTop, setDistanceTop] = useState(0);
-
-    return (
-        <StyledPlaylist>
-            <Header distanceTop={distanceTop} />
-
-            <Body distanceTop={distanceTop} setDistanceTop={setDistanceTop} />
-        </StyledPlaylist>
-    )
-}
-
-const StyledPlaylist = styled.View`
-    width: 100%;
-    display: flex;
-    background-color: #000000;
-    height: 100%;
 `;
 
 export default Playlist;
